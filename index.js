@@ -92,19 +92,19 @@ app.get('/dashboard', checkNotAuthenticated, (req, res) => {
 });
 
 app.get("/login", checkAuthenticated, (req, res) => {
-  res.render("login.ejs", {user: req.user});
+  res.render("login.ejs");
 });
 
 app.get("/register", checkAuthenticated, (req, res) => {
-    res.render("registration.ejs", {user: req.user});
+    res.render("registration.ejs");
 });
 
 app.get("/contact", (req, res) => {
-  res.render("contact.ejs", {user: req.user});
+  res.render("contact.ejs");
 });
 
 app.get("/about", (req, res) => {
-    res.render("about.ejs", {user: req.user});
+    res.render("about.ejs");
 });
 
 app.get("/category", async (req, res) => {
