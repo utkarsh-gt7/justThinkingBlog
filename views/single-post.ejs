@@ -11,7 +11,7 @@
             <div class="single-post">
               <div class="post-meta"><span class="date">Business</span> <span class="mx-1">&bullet;</span> <span><%= post.date %></span></div>
               <h1 class="mb-5"><%= post.title%>
-                <% if(user && user.role === "admin") {%>
+                <% if(user && user.id === 1) {%>
                   <a href=<%= `/delete?id=${post.id}` %> class="me-4 thumbnail">
                     <button type="submit" class="btn btn-primary">✘</button>
                   </a>
@@ -25,7 +25,7 @@
               </figure>
               <%- post.body %>
 
-              <% if(user && user.role === "admin") {%>
+              <% if(user && user.id === 1) {%>
                 <a href=<%= `/edit?id=${post.id}` %> class="me-4 thumbnail">
                   <button type="submit" class="btn btn-primary">Edit</button>
                 </a>
