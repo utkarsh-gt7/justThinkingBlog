@@ -9,6 +9,38 @@ list-type-ulli, .socials {
   margin: 0;
   padding: 0; }
 
+  .error-message {
+    display: flex;
+    color: var(--color-white);
+    padding: 15px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    background: #31363F;
+    width: 40%;
+    border: 2px solid #D04848; /* Border for the shadow effect */
+    border-radius: 5px; /* Rounded corners for better aesthetics */
+    box-shadow: 0 0 10px #D04848; /* Red shadow effect */
+  }
+
+  .success-message {
+    display: flex;
+    color: var(--color-white);
+    padding: 15px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    background: #31363F;
+    width: 40%;
+    border: 2px solid #87A922; /* Border for the shadow effect */
+    border-radius: 5px; /* Rounded corners for better aesthetics */
+    box-shadow: 0 0 10px #87A922; /* Red shadow effect */
+  }
+  
+  .error-message br+br {
+    margin-top: 25px;
+  }
+  
+
+
 /* poppins-300 - latin */
 @font-face {
   font-family: 'Poppins';
