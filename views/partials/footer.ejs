@@ -39,7 +39,7 @@
             <h3 class="footer-heading">Recent Posts</h3>
 
             <ul class="footer-links footer-blog-entry list-unstyled">
-              <% for(let i = 0; i < 4; i++) {%>
+              <% for(let i = 0; i < posts.length && i < 4; i++) {%>
               <li>
                 <a href=<%= `/see-post?id=${posts[i].id}` %> class="d-flex align-items-center">
                   <img src=<%= posts[i].img_url %> alt="blog image" class="img-fluid me-3">
