@@ -18,19 +18,19 @@
       </div>
       <div class="form-group">
           <label for="title">Title:</label>
-          <input type="text" class="form-control" id="title" name="title" required value=<%= post.title%>>
+          <input type="text" class="form-control" id="title" name="title" value="<%= post.title %>">
       </div>
       <div class="form-group">
           <label for="subtitle">Subtitle:</label>
-          <input type="text" class="form-control" id="subtitle" name="subtitle" required value=<%= post.subtitle%>>
+          <input type="text" class="form-control" id="subtitle" name="subtitle" value="<%= post.subtitle %>">
       </div>
       <div class="form-group">
           <label for="img_url">Image URL:</label>
-          <input type="text" class="form-control" id="img_url" name="img_url" required value=<%= post.img_url %>>
+          <input type="text" class="form-control" id="img_url" name="img_url" value="<%= post.img_url %>">
       </div>
       <div class="form-group">
           <label for="editor">Body:</label>
-          <textarea id="editor" name="content" value=<%- post.body%>></textarea>
+          <textarea id="editor" name="content" value=<%- post.body %>></textarea>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
   </form>
