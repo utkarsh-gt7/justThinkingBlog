@@ -7,7 +7,7 @@
           <div class="col-12">
             <div class="swiper sliderFeaturedPosts">
               <div class="swiper-wrapper">
-                <% for(let i = 0; i < 3; i++) {%>
+                <% for(let i = 0; i < posts.length && i < 3; i++) {%>
                 <div class="swiper-slide">
                   <a href=<%= `/see-post?id=${posts[i].id}` %> class="img-bg d-flex align-items-end" style='background-image: url("<%= posts[i].img_url %>");'>
                     <div class="img-bg-inner">
@@ -57,7 +57,7 @@
           <div class="col-lg-8">
             <div class="row g-5">
             <div class="col-lg-4 border-start custom-border">
-              <% for(let i = 1; i < 4; i++) {%>
+              <% for(let i = 1; i < posts.length && i < 4; i++) {%>
                 <div class="post-entry-1">
                   <a href=<%= `/see-post?id=${posts[i].id}` %>><img src=<%= posts[i].img_url %> alt="" class="img-fluid"></a>
                   <div class="post-meta"><span class="date">Sport</span> <span class="mx-1">&bullet;</span> <span><%= posts[i].date %></span></div>
