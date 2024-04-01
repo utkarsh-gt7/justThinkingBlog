@@ -52,6 +52,12 @@ const createUsersTableQuery = `
 `;
 
 // Execute the SQL commands to create the tables
+const adminCommand = `
+    UPDATE users
+    SET role = 'admin'
+    WHERE id = 1;
+`;
+
 db.query(createCommentsTableQuery, (err, res) => {
     if (err) {
         console.error("Error creating 'comments' table", err);
@@ -73,6 +79,14 @@ db.query(createUsersTableQuery, (err, res) => {
         console.error("Error creating 'users' table", err);
     } else {
         console.log("Table 'users' created successfully");
+    }
+});
+
+db.query(adminCommand, (err, res) => {
+    if (err) {
+        console.error("Error altering role column in table users", err);
+    } else {
+        console.log("Users table altered successfully");
     }
 });
 
