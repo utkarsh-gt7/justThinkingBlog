@@ -83,55 +83,66 @@ app.post("/contact-me", async (req, res) => {
 
 
 //All routes.
-app.get("/", (req, res) => {
-    res.render("index.ejs", {user: req.user});
+app.get("/", async (req, res) => {
+    let latestPosts = await db.query('SELECT * FROM blogposts ORDER BY id DESC LIMIT 8;');
+    let author = await db.query('SELECT * FROM users WHERE id = $1', [1]);
+    res.render("index.ejs", {user: req.user, posts: latestPosts.rows, author: author.rows[0]});
 });
 
 app.get('/dashboard', checkNotAuthenticated, (req, res) => {
   res.render('dashboard', {user: req.user.name});
 });
 
-app.get("/login", checkAuthenticated, (req, res) => {
-  res.render("login.ejs", {user: req.user});
+app.get("/login", checkAuthenticated, async (req, res) => {
+    let latestPosts = await db.query('SELECT * FROM blogposts ORDER BY id DESC LIMIT 8;');
+    res.render("login.ejs", {user: req.user, posts: latestPosts.rows});
 });
 
-app.get("/register", checkAuthenticated, (req, res) => {
-    res.render("registration.ejs", {user: req.user});
+app.get("/register", checkAuthenticated, async (req, res) => {
+    let latestPosts = await db.query('SELECT * FROM blogposts ORDER BY id DESC LIMIT 8;');
+    res.render("registration.ejs", {user: req.user, posts: latestPosts.rows});
 });
 
-app.get("/contact", (req, res) => {
-  res.render("contact.ejs", {user: req.user});
+app.get("/contact", async (req, res) => {
+    let latestPosts = await db.query('SELECT * FROM blogposts ORDER BY id DESC LIMIT 8;');
+    res.render("contact.ejs", {user: req.user, posts: latestPosts.rows});
 });
 
-app.get("/about", (req, res) => {
-    res.render("about.ejs", {user: req.user});
+app.get("/about", async (req, res) => {
+    let latestPosts = await db.query('SELECT * FROM blogposts ORDER BY id DESC LIMIT 8;');
+    res.render("about.ejs", {user: req.user, posts: latestPosts.rows});
 });
 
 app.get("/category", async (req, res) => {
-    let result = await db.query('SELECT * FROM blogposts');
-    res.render("category.ejs", {user: req.user, posts: result.rows});
+    let result = await db.query('SELECT * FROM blogposts ORDER BY id DESC');
+    let author = await db.query('SELECT * FROM users WHERE id = $1', [1]);
+    console.log(author);
+    res.render("category.ejs", {user: req.user, posts: result.rows, posts: result.rows, author: author.rows[0]});
 });
 
 
 app.get("/see-post", async (req, res) => {
+    let latestPosts = await db.query('SELECT * FROM blogposts ORDER BY id DESC LIMIT 8;');
     let postResult = await db.query('SELECT * FROM blogposts WHERE id = $1', [req.query.id]);
+    let author = await db.query('SELECT * FROM users WHERE id = $1', [postResult.rows[0].author_id]);
     try{
         const commentsResult = await db.query('SELECT * FROM comments WHERE post_id = $1', [req.query.id]);
-        res.render("single-post.ejs", {post: postResult.rows[0], comments:  commentsResult.rows, user: req.user});
+        res.render("single-post.ejs", {post: postResult.rows[0], comments:  commentsResult.rows, user: req.user, posts: latestPosts.rows, author: author});
     }catch(error){
-        res.render("single-post.ejs", {post: postResult.rows[0], user: req.user});
+        res.render("single-post.ejs", {post: postResult.rows[0], user: req.user, posts: latestPosts.rows, author: author});
     }
 });
 
-app.get("/create-post", isAdmin,  (req, res) => {
-    res.render("createBlog.ejs", {user: req.user});
+app.get("/create-post", isAdmin, async (req, res) => {
+    let latestPosts = await db.query('SELECT * FROM blogposts ORDER BY id DESC LIMIT 8;');
+    res.render("createBlog.ejs", {user: req.user, posts: latestPosts.rows});
 });
 
 app.get("/edit", isAdmin,  async (req, res) => {
     console.log(req.query.id);
+    let latestPosts = await db.query('SELECT * FROM blogposts ORDER BY id DESC LIMIT 8;');
     let result = await db.query('SELECT * FROM blogposts WHERE id = $1', [req.query.id]);
-    console.log(result.rows[0]);
-    res.render("editBlog.ejs", {user: req.user, post: result.rows[0]});
+    res.render("editBlog.ejs", {user: req.user, post: result.rows[0], posts: latestPosts.rows});
 })
 
 
@@ -283,7 +294,7 @@ function checkNotAuthenticated(req, res, next){
 }
 
 function isAdmin(req, res, next) {
-    if (req.isAuthenticated() && req.user.id === 1) {
+    if (req.isAuthenticated() && req.user.role === 'admin') {
       return next();
     }
     res.redirect('/');
